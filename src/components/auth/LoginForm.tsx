@@ -4,10 +4,16 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import shortid from "shortid";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/config/configStore";
+import { login } from "../../redux/modules/usersSlice";
 
 const LoginForm: React.FC = () => {
   // 상단 hook
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state: RootState) => state.users.isLogin);
+  const isSignup = useSelector((state: RootState) => state.users.isSignup);
 
   // Event Handler
   const handleLogin = async (values: any) => {
@@ -19,20 +25,21 @@ const LoginForm: React.FC = () => {
 
       // 1-1. dB에 없을 경우 (POST요청 안한 경우), 로그인 불가
       if (response.data.length <= 0) {
-        alert("일치하는 유저 없음");
-        return;
+        alert("일치하는 회원이 없습니다. 회원가입 먼저 해주세요!");
+        return false;
+      } else {
+        // 1-2. dB에 있을 경우 (POST요청 한 경우), 로그인 가능 => 후처리 진행
+        //
+        localStorage.setItem("token", shortid.generate());
+        localStorage.setItem("email", values.email);
+        //
+        dispatch(login);
+        alert("로그인 성공");
+        //
+        navigate("/authorized");
       }
-
-      // 1-2. dB에 있을 경우 (POST요청 한 경우), 로그인 가능 => 후처리 진행
-      alert("로그인 성공");
-      // 로컬 스토리지에 토큰, 이메일 저장
-      localStorage.setItem("token", shortid.generate());
-      localStorage.setItem("email", values.email);
-      // 메인페이지로 이동시킴
-      navigate("/");
     } catch (err) {
       alert("일시적인 오류가 발생하였습니다. 고객센터로 연락주세요.");
-      return false;
     }
   };
 

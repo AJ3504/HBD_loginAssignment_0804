@@ -1,11 +1,15 @@
+import { Provider } from "react-redux";
 import "./App.css";
 import Router from "./shared/Router";
+import { configStore } from "./redux/config/configStore";
 
 function App() {
   //TODO: 라우터 연결
   return (
     <div>
-      <Router />
+      <Provider store={configStore}>
+        <Router />
+      </Provider>
     </div>
   );
 }

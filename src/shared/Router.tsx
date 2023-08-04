@@ -9,10 +9,10 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<NonAuthLayout />}>
-          <Route path="/auth" element={<AuthMain />} />
+          <Route path="/" element={<AuthMain />} />
         </Route>
         <Route element={<AuthLayout />}>
-          <Route path="/" element={<Main />} />
+          <Route path="/authorized" element={<Main />} />
         </Route>
       </Routes>
     </BrowserRouter>

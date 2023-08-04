@@ -44,6 +44,11 @@
       "email": "mok05406@naver.com",
       "password": "dldkswls98!",
       "id": 9
+    },
+    {
+      "email": "what@naver.com",
+      "password": "what",
+      "id": 10
     }
   ],
   "boards": [

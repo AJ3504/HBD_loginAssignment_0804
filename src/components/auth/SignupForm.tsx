@@ -2,14 +2,22 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd"; // ant design
 import styled from "styled-components";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/config/configStore";
+import { signup } from "../../redux/modules/usersSlice";
 
-const SignupForm: React.FC<any> = ({ setIsLogin }) => {
+const SignupForm: React.FC<any> = () => {
+  //상단 hooks
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state: RootState) => state.users.isLogin);
+  const isSignup = useSelector((state: RootState) => state.users.isSignup);
+
   // Event Handler
   const handleSignup = async (values: any) => {
+    const { email, password, confrimPassword, agreed } = values;
+
     try {
       // 1. dB 검증 (email, password 있는지)
-      // 밑에서의 입력값을 받아온 다음
-      const { email, password, confrimPassword, agreed } = values;
       // dB에 GET요청
       const response = await axios.get(
         `http://localhost:4000/users?email=${email}`
@@ -27,8 +35,8 @@ const SignupForm: React.FC<any> = ({ setIsLogin }) => {
         email: email,
         password: password,
       });
+      dispatch(signup);
       alert("회원가입 완료");
-      setIsLogin(true);
     } catch (error) {
       alert("일시적인 오류가 발생하였습니다. 고객센터로 연락주세요.");
       return false;

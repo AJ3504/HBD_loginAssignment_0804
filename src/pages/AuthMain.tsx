@@ -3,18 +3,23 @@ import { Layout, Button } from "antd";
 import styled from "styled-components";
 import LoginForm from "../components/auth/LoginForm";
 import SignupForm from "../components/auth/SignupForm";
+import { useDispatch, useSelector } from "react-redux";
+import { login, signup } from "../redux/modules/usersSlice";
+import { RootState } from "../redux/config/configStore";
 
 const { Content } = Layout;
 
 const AuthMain: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  //상단 hooks
+  const [wantSignup, setWantSignup] = useState(true);
 
-  const handleGoToLogin = () => {
-    setIsLogin(true);
+  // Event Handler
+  const handleGoToSignup = () => {
+    setWantSignup(true);
   };
 
-  const handleGoToSignup = () => {
-    setIsLogin(false);
+  const handleGoToLogin = () => {
+    setWantSignup(false);
   };
 
   return (
@@ -28,12 +33,13 @@ const AuthMain: React.FC = () => {
       >
         <div>
           <Logo>HBD</Logo>
-          {isLogin ? <LoginForm /> : <SignupForm setIsLogin={setIsLogin} />}
+          <h1>회원가입/로그인 먼저 해주세요</h1>
+          {wantSignup ? <SignupForm /> : <LoginForm />}
           <Button
             type="link"
-            onClick={isLogin ? handleGoToSignup : handleGoToLogin}
+            onClick={wantSignup ? handleGoToLogin : handleGoToSignup}
           >
-            {isLogin ? "회원가입으로 이동" : "로그인으로 이동"}
+            {wantSignup ? "로그인으로 이동" : "회원가입으로 이동"}
           </Button>
         </div>
       </Content>

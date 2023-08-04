@@ -1,18 +1,39 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import shortid from "shortid";
 
 const LoginForm: React.FC = () => {
-  const handleLogin = async (values: any) => {
-    alert("TODO 요구사항에 맞추어 기능을 완성해주세요.");
+  // 상단 hook
+  const navigate = useNavigate();
 
-    // TODO: email과 password를 DB에서 찾아서 로그인 검증
-    // TODO: 일치하는 유저가 없는 경우 "일치하는 유저를 찾을 수 없습니다." alert
-    // TODO: 네트워크 등 기타 문제인 경우, "일시적인 오류가 발생하였습니다. 고객센터로 연락주세요." alert
-    // TODO: 성공 시(1), "로그인에 성공하였습니다. 메인 페이지로 이동합니다." alert
-    // TODO: 성공 시(2), localStorage에 token과 email을 저장
-    // TODO: 성공 시(3), token은 shortId로 생성
-    // TODO: 성공 시(4), "/" 라우터로 이동
+  // Event Handler
+  const handleLogin = async (values: any) => {
+    try {
+      // 1. dB 검증 (email, password 있는지)
+      const response = await axios.get(
+        `http://localhost:4000/users?email=${values.email}&passowrd=${values.password}`
+      );
+
+      // 1-1. dB에 없을 경우 (POST요청 안한 경우), 로그인 불가
+      if (response.data.length <= 0) {
+        alert("일치하는 유저 없음");
+        return;
+      }
+
+      // 1-2. dB에 있을 경우 (POST요청 한 경우), 로그인 가능 => 후처리 진행
+      alert("로그인 성공");
+      // 로컬 스토리지에 토큰, 이메일 저장
+      localStorage.setItem("token", shortid.generate());
+      localStorage.setItem("email", values.email);
+      // 메인페이지로 이동시킴
+      navigate("/");
+    } catch (err) {
+      alert("일시적인 오류가 발생하였습니다. 고객센터로 연락주세요.");
+      return false;
+    }
   };
 
   return (

@@ -12,6 +12,7 @@ const Main: React.FC<any> = () => {
   const [contents, setContents] = useState<string>("");
   const isLogin = useSelector((state: RootState) => state.users.isLogin);
 
+  // functions & Event Handler
   const fetchData = async () => {
     try {
       // 데이터베이스에서 boards 리스트 가져오기
@@ -30,19 +31,16 @@ const Main: React.FC<any> = () => {
 
   const handleBoardSubmit = async (e: any) => {
     e.preventDefault();
-    // 이메일과 contents를 이용하여 post 요청 등록(isDeleted 기본값은 false)
+
     try {
-      await axios.post(`http:localhost:4000/boards`, {
+      // post요청 등록
+      await axios.post("http://localhost:4000/boards", {
         email: localStorage.getItem("email"),
         contents,
         isDeleted: false,
       });
-
-      alert(
-        "작성이 완료되었습니다. 아직 자동 새로고침이 불가하여 수동으로 갱신합니다."
-      );
-
-      // 처리완료 후, reload를 이용하여 새로고침
+      alert("방명록 작성 완료!");
+      // 새로고침
       window.location.reload();
     } catch (error) {
       alert("일시적인 오류가 발생하였습니다. 고객센터로 연락주세요.");

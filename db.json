@@ -49,6 +49,11 @@
       "email": "what@naver.com",
       "password": "what",
       "id": 10
+    },
+    {
+      "email": "trying@naver.com",
+      "password": "trying",
+      "id": 11
     }
   ],
   "boards": [
@@ -105,6 +110,30 @@
       "contents": "asdfasdf",
       "isDeleted": false,
       "id": 9
+    },
+    {
+      "email": "trying@naver.com",
+      "contents": "trying",
+      "isDeleted": false,
+      "id": 10
+    },
+    {
+      "email": "trying@naver.com",
+      "contents": "trying2",
+      "isDeleted": false,
+      "id": 11
+    },
+    {
+      "email": "trying@naver.com",
+      "contents": "trying3",
+      "isDeleted": false,
+      "id": 12
+    },
+    {
+      "email": "mok05406@naver.com",
+      "contents": "안진",
+      "isDeleted": false,
+      "id": 13
     }
   ]
 }
